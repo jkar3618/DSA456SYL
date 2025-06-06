@@ -84,3 +84,22 @@ def fibonacci(n):
     for _ in range(2, n + 1):
         previous, current = current, previous + current
     return current
+
+'''
+Reflection
+
+1. Considering the solutions you saw in the lab 1 code, what differences did you see between the fastest and slowest versions?
+- Fast versions reduced unnecessary iterations and used efficient algorithms, and slow versions often used relatively redundant calculations or inefficient structures.
+
+2. Was there a difference in terms of the usage of space resources? Did one algorithm use more/less space (memory)?
+- There was a difference in terms of memory usage. For example, the Fibonacci function I implemented is very efficient (O(1) spatial complexity)
+ as it stores only two previous values and uses very little space.
+On the other hand, slow versions with recursive use more memory as calls pile up (O(n) spatial complexity).
+In addition, the sum_to_goal function uses a set to store duplicate numbers, which requires some additional memory, but significantly improves the execution speed.
+In conclusion, memory usage depends on whether the algorithm writes repetitions, writes recursions, and stores intermediate results.
+
+3. What sort of conclusions can you draw based on your observations?
+- Fast algorithms usually use less memory, and slow algorithms use more memory or use inefficient methods. 
+Therefore, it can be concluded that it is important to consider not only time but also space (memory) efficiency when designing algorithms.
+
+'''
