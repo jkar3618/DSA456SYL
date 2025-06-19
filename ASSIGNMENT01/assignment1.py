@@ -1,4 +1,5 @@
 import random
+import time
 
 def bubble_sort(my_list):
     n = len(my_list)
@@ -114,10 +115,34 @@ def main():
     _, ops = insertion_sort_range(sample, 10, 30)
     print(f"Partial sort (10~30) T(n): {ops}")
 
+
+def measure_time(sort_func, data):
+    start = time.time()
+    sort_func(data.copy())  # Copy to avoid in-place sorting affecting next runs
+    end = time.time()
+    return end - start
+
+def run_step4():
+    sizes = [10, 50, 100, 500, 1000, 5000]
+    algorithms = [
+        ("Bubble Sort", bubble_sort),
+        ("Selection Sort", selection_sort),
+        ("Insertion Sort", insertion_sort),
+        ("Quick Sort", quick_sort),
+    ]
+
+    print("\nStep 4: Sort Execution Time vs Input Size (Worst Case)")
+    print(f"{'Algorithm':<20} {'n=10':>10} {'n=50':>10} {'n=100':>10} {'n=500':>10} {'n=1000':>10} {'n=5000':>10}")
+
+    for name, func in algorithms:
+        times = []
+        for n in sizes:
+            worst_case = list(range(n, 0, -1))  # Worst case: descending
+            duration = measure_time(func, worst_case)
+            times.append(f"{duration:.5f}")
+        print(f"{name:<20} {''.join(f'{t:>10}' for t in times)}")
+
 # Entry point
 if __name__ == "__main__":
     main()
-
-'''
-
-'''
+    run_step4()
