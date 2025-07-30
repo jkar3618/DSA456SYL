@@ -3,6 +3,7 @@ Name: Taehwa Hong
 Student ID: 132546227
 '''
 
+# Part A
 class SortedTable:
     class Record:
         def __init__(self, key, value):
@@ -88,3 +89,93 @@ class SortedTable:
         return count
     # Total Number of Operation: O(n)
     # Time Complexity: O(n)
+
+
+# Part B
+class ChainingTable:
+    def __init__(self, capacity=32):
+        self.capacity = capacity
+        self.size = 0
+        self.table = [None] * capacity
+    
+    def _hash(self, key):
+        return hash(key) % self.capacity
+    
+    def insert(self, key, value):
+        if self.size >= self.capacity:
+            self._resize()
+            
+        index = self._hash(key)
+        
+        if self.table[index] is None:
+            self.table[index] = [(key, value)]
+            self.size += 1
+            return True
+            
+        for entry in self.table[index]:
+            if entry[0] == key:
+                return False
+                
+        self.table[index].append((key, value))
+        self.size += 1
+        return True
+        
+    def modify(self, key, value):
+        index = self._hash(key)
+        
+        if self.table[index] is None:
+            return False
+            
+        i = 0
+        while i < len(self.table[index]):
+            if self.table[index][i][0] == key:
+                self.table[index][i] = (key, value)
+                return True
+            i += 1
+                
+        return False
+        
+    def remove(self, key):
+        index = self._hash(key)
+        
+        if self.table[index] is None:
+            return False
+            
+        i = 0
+        while i < len(self.table[index]):
+            if self.table[index][i][0] == key:
+                self.table[index].pop(i)
+                self.size -= 1
+                return True
+            i += 1
+                
+        return False
+        
+    def search(self, key):
+        index = self._hash(key)
+        
+        if self.table[index] is None:
+            return None
+            
+        for entry in self.table[index]:
+            if entry[0] == key:
+                return entry[1]
+                
+        return None
+        
+    def capacity(self):
+        return self.capacity
+        
+    def __len__(self):
+        return self.size
+        
+    def _resize(self):
+        old_table = self.table
+        self.capacity *= 2
+        self.table = [None] * self.capacity
+        self.size = 0
+        
+        for bucket in old_table:
+            if bucket is not None:
+                for entry in bucket:
+                    self.insert(entry[0], entry[1])
